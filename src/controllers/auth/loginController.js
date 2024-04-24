@@ -6,6 +6,10 @@ export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(statusCodes.HTTP_400.code).json({ message: "Email and password are required" });
+    }
+
     const user = await User.findOne({ where: { email } });
 
     if (!user || !await user.validPassword(password)) {

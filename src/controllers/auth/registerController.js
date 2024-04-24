@@ -6,8 +6,12 @@ export const registerController = async (req, res) => {
     try {
       const { fullName, email, password } = req.body;
   
+      if (!fullName || !email || !password) {
+        return res.status(statusCodes.HTTP_400.code).json({ message: "Full name, email, and password are required" });
+      }
+  
       const existingUser = await User.findOne({ where: { email } });
-
+  
       if (existingUser) {
         return res.status(statusCodes.HTTP_409.code).json({ message: "User already exists" });
       }
@@ -26,3 +30,4 @@ export const registerController = async (req, res) => {
       res.status(statusCodes.HTTP_500.code).json({ message: "Error registering new user" });
     }
   };
+  
