@@ -6,13 +6,22 @@ export class User extends Model {
   validPassword(password) {
     return bcrypt.compareSync(password, this.password);
   }
+
+  static async register({ username, email, password }) {
+    const newUser = await User.create({
+      username,
+      email,
+      password
+    });
+    return newUser;
+  }
 }
 
 User.init({
   username: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   email: {
     type: DataTypes.STRING,
@@ -37,4 +46,3 @@ User.beforeSave(async (user, options) => {
     user.password = bcrypt.hashSync(user.password, salt);
   }
 });
-
