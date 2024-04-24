@@ -1,5 +1,6 @@
 import express from 'express';
 import apiRouter from './src/routes/index.js';
+import { connectToDatabase } from './src/db/index.js';
 
 const app = express();
 
@@ -8,12 +9,12 @@ app.use((req, res, next) => {
   console.log(`${req.method} request to ${req.url}`);
   next();
 });
-app.use('/api', apiRouter);
-// app.get('/', (req, res) => {
-//   res.send('Hello from A!')
-// })
+app.use('/', apiRouter);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+connectToDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });
