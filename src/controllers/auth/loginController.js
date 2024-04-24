@@ -12,7 +12,7 @@ export const loginController = async (req, res) => {
       return res.status(statusCodes.HTTP_401.code).json({ message: "Invalid credentials" });
     }
 
-    const userData = { id: user.id, email: user.email, fullname: user.fullname }
+    const userData = { id: user.id, email: user.email, fullName: user.fullName}
     const token = generateToken(userData);
 
     res.status(statusCodes.HTTP_200.code).json({

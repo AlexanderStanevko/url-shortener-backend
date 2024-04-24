@@ -7,9 +7,9 @@ export class User extends Model {
     return bcrypt.compareSync(password, this.password);
   }
 
-  static async register({ fullname, email, password }) {
+  static async register({ fullName, email, password }) {
     const newUser = await User.create({
-      fullname,
+      fullName,
       email,
       password
     });
@@ -18,7 +18,7 @@ export class User extends Model {
 }
 
 User.init({
-  fullname: {
+  fullName: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: false,

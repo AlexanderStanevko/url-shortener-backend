@@ -4,7 +4,7 @@ import { generateToken } from '../../utils/index.js';
 
 export const registerController = async (req, res) => {
     try {
-      const { fullname, email, password } = req.body;
+      const { fullName, email, password } = req.body;
   
       const existingUser = await User.findOne({ where: { email } });
 
@@ -12,8 +12,8 @@ export const registerController = async (req, res) => {
         return res.status(statusCodes.HTTP_409.code).json({ message: "User already exists" });
       }
   
-      const newUser = await User.register({ fullname, email, password });
-      const user = { id: newUser.id, fullname: newUser.fullname, email: newUser.email }
+      const newUser = await User.register({ fullName, email, password });
+      const user = { id: newUser.id, fullName: newUser.fullName, email: newUser.email }
       const token = generateToken(user);
   
       res.status(statusCodes.HTTP_201.code).json({
