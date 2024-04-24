@@ -1,7 +1,9 @@
 import express from 'express';
 import apiRouter from './src/routes/index.js';
 import { connectToDatabase } from './src/db/index.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(express.json());
