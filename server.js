@@ -6,9 +6,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
 
-// console.log('All environment variables:');
-// console.log(process.env);
-
 app.use(express.json());
 app.use((req, res, next) => {
   console.log(`${req.method} request to ${req.url}`);

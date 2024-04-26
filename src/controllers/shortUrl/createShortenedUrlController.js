@@ -17,7 +17,8 @@ export const createShortenedUrlController = async (req, res) => {
     res.status(statusCodes.HTTP_201.code).json({
       message: "Shortened URL created successfully",
       originalUrl: newShortenedUrl.originalUrl,
-      shortenedUrl: `https://${req.headers.host}/${newShortenedUrl.shortenedCode}`,
+      // shortenedUrl: `https://${req.headers.host}/${newShortenedUrl.shortenedCode}`,
+      shortenedUrl: `{newShortenedUrl.shortenedCode}`,
     });
   } catch (error) {
     console.error(error);
