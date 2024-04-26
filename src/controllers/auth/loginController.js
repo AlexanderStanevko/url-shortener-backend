@@ -12,7 +12,7 @@ export const loginController = async (req, res) => {
 
     const user = await User.findOne({ where: { email } });
 
-    if (!user || !await user.validPassword(password)) {
+    if (!user || !user.validPassword(password)) {
       return res.status(statusCodes.HTTP_401.code).json({ message: "Invalid credentials" });
     }
 

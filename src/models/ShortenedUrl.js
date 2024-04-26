@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../db/index.js';
+import shortid from 'shortid';
 
 export class ShortenedUrl extends Model {}
 
@@ -16,12 +17,13 @@ ShortenedUrl.init({
   clicks: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
-  },
-  domain: {
-    type: DataTypes.STRING,
-    allowNull: false,
   }
 }, {
   sequelize,
   modelName: 'ShortenedUrl',
+  tableName: 'shortened_urls',
+});
+
+ShortenedUrl.beforeCreate((shortenedUrl) => {
+  shortenedUrl.shortenedCode = shortid.generate();
 });

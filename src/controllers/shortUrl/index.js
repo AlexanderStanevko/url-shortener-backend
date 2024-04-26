@@ -1,0 +1,1 @@
+export { shortenedUrlController } from './shortenedUrlController.js'
