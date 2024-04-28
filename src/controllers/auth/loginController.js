@@ -20,7 +20,7 @@ export const loginController = async (req, res) => {
     const token = generateToken(userData);
 
     res.status(statusCodes.HTTP_200.code).json({
-      message: "Login successful",
+      success: true,
       token,
       user: userData
     });

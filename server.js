@@ -1,16 +1,18 @@
 import express from 'express';
 import apiRouter from './src/routes/index.js';
 import { connectToDatabase } from './src/db/index.js';
+import { 
+  logger, 
+  corsMiddleware
+} from './src/middleware/index.js'
 import dotenv from 'dotenv';
 
 dotenv.config();
 const app = express();
 
+app.use(corsMiddleware);
 app.use(express.json());
-app.use((req, res, next) => {
-  console.log(`${req.method} request to ${req.url}`);
-  next();
-});
+app.use(logger);
 app.use('/', apiRouter);
 
 const PORT = process.env.PORT || 3000;
