@@ -14,12 +14,18 @@ export const createShortenedUrlController = async (req, res) => {
 
     const newShortenedUrl = await ShortenedUrl.create({ originalUrl, shortenedCode });
 
-    res.status(statusCodes.HTTP_201.code).json({
+    const responseData = {
       message: "Shortened URL created successfully",
-      originalUrl: newShortenedUrl.originalUrl,
-      // shortenedUrl: `https://${req.headers.host}/${newShortenedUrl.shortenedCode}`,
-      shortenedUrl: `{newShortenedUrl.shortenedCode}`,
-    });
+      urlData: {
+        originalUrl: newShortenedUrl.originalUrl,
+        shortenedUrl: `${newShortenedUrl.shortenedCode}`,
+        createdAt: newShortenedUrl.createdAt,
+        clicks: newShortenedUrl.clicks,
+        id: newShortenedUrl.id,
+      }
+    };
+
+    res.status(statusCodes.HTTP_201.code).json(responseData);
   } catch (error) {
     console.error(error);
     res.status(statusCodes.HTTP_500.code).json({ message: "Error creating shortened URL" });

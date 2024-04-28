@@ -24,7 +24,7 @@ export const getMostActiveShortenedUrlsController = async (req, res) => {
     res.status(statusCodes.HTTP_200.code).json({
       mostActiveUrls: mostActiveUrls.map(url => ({
         originalUrl: url.originalUrl,
-        shortenedCode: url.shortenedCode
+        shortenedUrl: url.shortenedCode
       })),
       totalClicks,
       uniqueClicks

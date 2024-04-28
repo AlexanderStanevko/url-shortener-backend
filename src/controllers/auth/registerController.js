@@ -21,7 +21,7 @@ export const registerController = async (req, res) => {
       const token = generateToken(user);
   
       res.status(statusCodes.HTTP_201.code).json({
-        message: "User registered successfully",
+        success: true,
         token,
         user
       });
