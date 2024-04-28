@@ -9,6 +9,7 @@ import { methodFromUrl } from '../../utils/index.js';
 
 export const shortenedUrlController = (req, res) => {
   console.log("shortenedUrlController called");
+  console.log(req)
   try {
     const action = methodFromUrl(req.url);
 
@@ -20,7 +21,7 @@ export const shortenedUrlController = (req, res) => {
       return getAllShortenedUrlsController(req, res);
     }
 
-    if (action === 'delete') {
+    if (req.method === 'DELETE') {
       return deleteShortenedUrlController(req, res);
     }
     
