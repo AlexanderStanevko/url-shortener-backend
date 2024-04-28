@@ -1,6 +1,10 @@
 import { statusCodes } from '../../config/index.js';
-import { createShortenedUrlController } from './createShortenedUrlController.js';
-import { redirectToOriginalUrlController } from './redirectToOriginalUrlController.js'; // Подразумевается, что у вас есть контроллер для перехода по сокращенному URL
+import {
+  createShortenedUrlController,
+  redirectToOriginalUrlController,
+  getAllShortenedUrlsController,
+  deleteShortenedUrlController
+} from './index.js'
 import { methodFromUrl } from '../../utils/index.js';
 
 export const shortenedUrlController = (req, res) => {
@@ -11,8 +15,16 @@ export const shortenedUrlController = (req, res) => {
     if (action === 'create') {
       return createShortenedUrlController(req, res);
     }
+
+    if (action === 'all') {
+      return getAllShortenedUrlsController(req, res);
+    }
+
+    if (action === 'delete') {
+      return deleteShortenedUrlController(req, res);
+    }
     
-    if (action !== 'create') {
+    if (!['create', 'all', 'delete'].includes(action)) {
       return redirectToOriginalUrlController(req, res);
     }
 
