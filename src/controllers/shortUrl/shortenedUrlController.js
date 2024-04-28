@@ -3,13 +3,12 @@ import {
   createShortenedUrlController,
   redirectToOriginalUrlController,
   getAllShortenedUrlsController,
-  deleteShortenedUrlController
+  deleteShortenedUrlController,
+  getMostActiveShortenedUrlsController
 } from './index.js'
 import { methodFromUrl } from '../../utils/index.js';
 
 export const shortenedUrlController = (req, res) => {
-  console.log("shortenedUrlController called");
-  console.log(req)
   try {
     const action = methodFromUrl(req.url);
 
@@ -24,8 +23,14 @@ export const shortenedUrlController = (req, res) => {
     if (req.method === 'DELETE') {
       return deleteShortenedUrlController(req, res);
     }
+
+    if (action === 'mostActive') {
+      return getMostActiveShortenedUrlsController(req, res);
+    }
+
     
-    if (!['create', 'all', 'delete'].includes(action)) {
+    
+    if (!['create', 'all', 'delete', 'mostActive'].includes(action)) {
       return redirectToOriginalUrlController(req, res);
     }
 
