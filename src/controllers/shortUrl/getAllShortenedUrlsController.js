@@ -3,7 +3,9 @@ import { statusCodes } from '../../config/index.js';
 
 export const getAllShortenedUrlsController = async (req, res) => {
   try {
-    const shortenedUrls = await ShortenedUrl.findAll();
+    const shortenedUrls = await ShortenedUrl.findAll({
+      order: [['createdAt', 'DESC']]
+    });
 
     const formattedUrls = shortenedUrls.map(url => ({
       originalUrl: url.originalUrl,
