@@ -9,6 +9,7 @@ import {
 import { methodFromUrl } from '../../utils/index.js';
 
 export const shortenedUrlController = (req, res) => {
+  console.log('CONTROLLER called')
   try {
     const action = methodFromUrl(req.url);
 
