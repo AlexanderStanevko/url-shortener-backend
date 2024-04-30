@@ -3,7 +3,7 @@ import { statusCodes } from '../../config/index.js';
 
 export const redirectToOriginalUrlController = async (req, res) => {
   try {
-    const { shortenedCode } = req.params;
+    const { shortenedCode } = req.query;
 
     const shortenedUrl = await ShortenedUrl.findOne({ where: { shortenedCode } });
 

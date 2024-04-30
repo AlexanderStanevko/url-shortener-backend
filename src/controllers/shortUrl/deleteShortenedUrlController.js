@@ -2,7 +2,6 @@ import { ShortenedUrl } from '../../models/ShortenedUrl.js';
 import { statusCodes } from '../../config/index.js';
 
 export const deleteShortenedUrlController = async (req, res) => {
-  console.log('DELERE')
   try {
     const { id } = req.query;
 
