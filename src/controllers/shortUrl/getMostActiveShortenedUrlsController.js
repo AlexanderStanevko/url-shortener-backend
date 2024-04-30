@@ -7,11 +7,11 @@ export const getMostActiveShortenedUrlsController = async (req, res) => {
     const mostActiveUrls = await ShortenedUrl.findAll({
       attributes: [
         'originalUrl',
-        'shortenedCode',
+        'shortenedUrl',
         [sequelize.fn('sum', sequelize.col('clicks')), 'totalClicks'],
         [sequelize.fn('count', sequelize.fn('DISTINCT', sequelize.col('id'))), 'uniqueClicks']
       ],
-      group: ['originalUrl', 'shortenedCode'],
+      group: ['originalUrl', 'shortenedUrl'],
       having: sequelize.literal('totalClicks > 0'),
       order: [[sequelize.literal('totalClicks'), 'DESC']],
       limit: 5,
@@ -24,7 +24,7 @@ export const getMostActiveShortenedUrlsController = async (req, res) => {
     res.status(statusCodes.HTTP_200.code).json({
       mostActiveUrls: mostActiveUrls.map(url => ({
         originalUrl: url.originalUrl,
-        shortenedUrl: url.shortenedCode
+        shortenedUrl: url.shortenedUrl
       })),
       totalClicks,
       uniqueClicks
