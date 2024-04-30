@@ -9,7 +9,8 @@ export const getAllShortenedUrlsController = async (req, res) => {
 
     const formattedUrls = shortenedUrls.map(url => ({
       originalUrl: url.originalUrl,
-      shortenedUrl: `https://${req.headers.host}/${url.shortenedCode}`,
+      shortenedUrl: url.shortenedUrl,
+      shortenedCode: url.shortenedCode,
       createdAt: url.createdAt,
       clicks: url.clicks,
       id: url.id

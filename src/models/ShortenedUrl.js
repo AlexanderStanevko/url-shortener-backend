@@ -14,6 +14,11 @@ ShortenedUrl.init({
     allowNull: false,
     unique: true,
   },
+  shortenedUrl: { 
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
   clicks: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
@@ -24,6 +29,6 @@ ShortenedUrl.init({
   tableName: 'shortened_urls',
 });
 
-ShortenedUrl.beforeCreate((shortenedUrl) => {
-  shortenedUrl.shortenedCode = shortid.generate();
-});
+// ShortenedUrl.beforeCreate((shortenedUrl) => {
+//   shortenedUrl.shortenedCode = shortid.generate();
+// });

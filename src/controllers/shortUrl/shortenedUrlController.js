@@ -11,7 +11,9 @@ import { methodFromUrl } from '../../utils/index.js';
 export const shortenedUrlController = (req, res) => {
   console.log('CONTROLLER called')
   try {
+    console.log('URL: ', req.url);
     const action = methodFromUrl(req.url);
+    console.log('action: ', action);
 
     if (action === 'create') {
       return createShortenedUrlController(req, res);
