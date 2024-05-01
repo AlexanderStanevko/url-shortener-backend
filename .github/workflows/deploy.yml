@@ -1,0 +1,46 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - DEV
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Check if project directory exists
+        run: |
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 '[ -d /var/www/url_shortener ] || mkdir -p /var/www/url_shortener'
+
+      - name: Set up environment variables
+        run: |
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 'echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> /var/www/url_shortener/.env'
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 'echo "DB_NAME=${{ secrets.DB_NAME }}" >> /var/www/url_shortener/.env'
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 'echo "DB_USER=${{ secrets.DB_USER }}" >> /var/www/url_shortener/.env'
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 'echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> /var/www/url_shortener/.env'
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 'echo "DB_HOST=${{ secrets.DB_HOST }}" >> /var/www/url_shortener/.env'
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 'echo "DB_PORT=${{ secrets.DB_PORT }}" >> /var/www/url_shortener/.env'
+
+      - name: Deploy to Droplet
+        run: |
+          ssh -o StrictHostKeyChecking=no root@167.99.138.46 'cd /var/www/url_shortener && git pull origin DEV && docker-compose up --build -d'
