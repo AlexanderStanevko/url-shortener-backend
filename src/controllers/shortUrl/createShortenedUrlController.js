@@ -1,6 +1,6 @@
 import { ShortenedUrl } from '../../models/ShortenedUrl.js';
 import { statusCodes } from '../../config/index.js';
-import { isValidUrl, generateShortId } from '../../utils/index.js';  // Ensure generateShortId is correctly imported or defined
+import { isValidUrl, generateShortId } from '../../utils/index.js'; 
 
 export const createShortenedUrlController = async (req, res) => {
   try {
