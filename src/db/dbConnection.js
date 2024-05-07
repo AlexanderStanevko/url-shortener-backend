@@ -1,7 +1,8 @@
-import { sequelize } from './index.js';
+import { sequelize, createDatabaseIfNotExist } from './index.js';
 
 export const connectToDatabase = async () => {
   try {
+    await createDatabaseIfNotExist();
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
     await sequelize.sync({ force: false }); 
