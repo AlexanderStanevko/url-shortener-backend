@@ -1,5 +1,6 @@
 import { ShortenedUrl } from '../../models/ShortenedUrl.js';
 import { statusCodes } from '../../config/index.js';
+import { sequelize } from '../../db/index.js';
 
 export const getMostActiveShortenedUrlsController = async (req, res) => {
   try {
