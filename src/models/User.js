@@ -38,7 +38,7 @@ User.init({
 }, {
   sequelize,
   modelName: 'User',
-  tableName: 'users'
+  tableName: 'usersTable'
 });
 
 User.beforeSave(async (user, options) => {
