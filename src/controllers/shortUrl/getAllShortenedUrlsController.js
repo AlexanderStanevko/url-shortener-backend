@@ -1,24 +1,40 @@
 import { ShortenedUrl } from '../../models/ShortenedUrl.js';
 import { statusCodes } from '../../config/index.js';
 
-export const getAllShortenedUrlsController = async (req, res) => {
+export const getMostActiveShortenedUrlsController = async (req, res) => {
   try {
-    const shortenedUrls = await ShortenedUrl.findAll({
-      order: [['createdAt', 'DESC']]
+    if (!req.user) {
+      return res.status(statusCodes.HTTP_401.code).json({ message: "User unauthorized" });
+    }
+
+    const userId = req.user.id;
+
+    const mostActiveUrls = await ShortenedUrl.findAll({
+      where: { userId: userId },
+      attributes: [
+        'originalUrl',
+        'shortenedUrl',
+        [sequelize.fn('sum', sequelize.col('clicks')), 'totalClicks'],
+        [sequelize.fn('count', sequelize.fn('DISTINCT', sequelize.col('id'))), 'uniqueClicks']
+      ],
+      group: ['originalUrl', 'shortenedUrl'],
+      having: sequelize.literal('totalClicks > 0'),
+      order: [[sequelize.literal('totalClicks'), 'DESC']],
+      limit: 5,
+      raw: true
     });
 
-    const formattedUrls = shortenedUrls.map(url => ({
-      originalUrl: url.originalUrl,
-      shortenedUrl: url.shortenedUrl,
-      shortenedCode: url.shortenedCode,
-      createdAt: url.createdAt,
-      clicks: url.clicks,
-      id: url.id
-    }));
-
-    res.status(statusCodes.HTTP_200.code).json(formattedUrls);
+    res.status(statusCodes.HTTP_200.code).json({
+      mostActiveUrls: mostActiveUrls.map(url => ({
+        originalUrl: url.originalUrl,
+        shortenedUrl: url.shortenedUrl,
+        totalClicks: url.totalClicks,
+        uniqueClicks: url.uniqueClicks
+      }))
+    });
   } catch (error) {
-    console.error(error);
-    res.status(statusCodes.HTTP_500.code).json({ message: "Error retrieving shortened URLs" });
+    console.error("Failed to retrieve most active URLs:", error);
+    res.status(statusCodes.HTTP_500.code).json({ message: "Error retrieving most active shortened URLs", error: error.message });
   }
 };
+
