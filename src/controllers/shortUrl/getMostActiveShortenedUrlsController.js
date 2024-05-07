@@ -25,17 +25,19 @@ export const getMostActiveShortenedUrlsController = async (req, res) => {
       raw: true
     });
 
+    const totalClicks = mostActiveUrls.reduce((total, url) => total + parseInt(url.totalClicks, 10), 0);
+    const uniqueClicks = mostActiveUrls.reduce((total, url) => total + url.uniqueClicks, 0);
+
     res.status(statusCodes.HTTP_200.code).json({
       mostActiveUrls: mostActiveUrls.map(url => ({
         originalUrl: url.originalUrl,
         shortenedUrl: url.shortenedUrl,
-        totalClicks: url.totalClicks,
-        uniqueClicks: url.uniqueClicks
-      }))
+      })),
+      totalClicks,
+      uniqueClicks
     });
   } catch (error) {
     console.error("Failed to retrieve most active URLs:", error);
     res.status(statusCodes.HTTP_500.code).json({ message: "Error retrieving most active shortened URLs", error: error.message });
   }
 };
-
