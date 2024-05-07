@@ -5,21 +5,21 @@ import { isValidUrl, generateShortId } from '../../utils/index.js';
 export const createShortenedUrlController = async (req, res) => {
   try {
     const { originalUrl } = req.body;
+    const userId = req.user ? req.user.id : null;
 
     if (!isValidUrl(originalUrl)) {
       return res.status(statusCodes.HTTP_400.code).json({ message: "Invalid URL" });
     }
 
     const shortenedCode = generateShortId();
-
     const baseURL = process.env.BASE_URL || `https://tsup.zapto.org`;
     const shortenedUrl = `${baseURL}/${shortenedCode}`;
-
 
     const newShortenedUrl = await ShortenedUrl.create({ 
       originalUrl, 
       shortenedCode, 
-      shortenedUrl
+      shortenedUrl,
+      userId
     });
 
     const responseData = {
@@ -31,6 +31,7 @@ export const createShortenedUrlController = async (req, res) => {
         createdAt: newShortenedUrl.createdAt,
         clicks: newShortenedUrl.clicks,
         id: newShortenedUrl.id,
+        userId: newShortenedUrl.userId
       }
     };
 
