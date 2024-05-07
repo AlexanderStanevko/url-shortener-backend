@@ -12,6 +12,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=db
       - DB_PORT=${DB_PORT}
+      - HOST_IP=${HOST_IP}
     volumes:
       - .:/app
     command: npm start
