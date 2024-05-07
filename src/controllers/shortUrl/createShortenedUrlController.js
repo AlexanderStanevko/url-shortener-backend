@@ -13,7 +13,7 @@ export const createShortenedUrlController = async (req, res) => {
     const shortenedCode = generateShortId();
 
     const baseURL = process.env.BASE_URL || `https://tsup.zapto.org`;
-    const shortenedUrl = `${baseURL}/short/${shortenedCode}`;
+    const shortenedUrl = `${baseURL}/${shortenedCode}`;
 
 
     const newShortenedUrl = await ShortenedUrl.create({ 
