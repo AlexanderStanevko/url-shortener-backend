@@ -1,7 +1,6 @@
 import { statusCodes } from '../../config/index.js';
 import {
   createShortenedUrlController,
-  redirectToOriginalUrlController,
   getAllShortenedUrlsController,
   deleteShortenedUrlController,
   getMostActiveShortenedUrlsController
@@ -29,12 +28,6 @@ export const shortenedUrlController = (req, res) => {
 
     if (action === 'mostActive') {
       return getMostActiveShortenedUrlsController(req, res);
-    }
-
-    
-    
-    if (!['create', 'all', 'delete', 'mostActive'].includes(action)) {
-      return redirectToOriginalUrlController(req, res);
     }
 
     return res.status(statusCodes.HTTP_404.code).json({
